@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>
+
+             &middot;DatePlane 
+
+        </title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Documentation extras -->
+        <link href="/assets/css/docs.css" rel="stylesheet">
+        <link href="/assets/css/pygments-manni.css" rel="stylesheet">
+
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="../assets/ico/favicon.png">
+
+        <script src="/assets/js/jquery.js"></script>
+        <script src="/bootstrap/js/bootstrap.js"></script>
+
+        <link href="/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+        <script src="/bootstrap-table/dist/bootstrap-table.js"></script>
+
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript"></script>
+
+        <script src="http://demo.qunee.com/lib/qunee-min.js"></script>
+
+        <!-- Place anything custom after this. -->
+    </head>
+    <body>
+        <a class="sr-only" href="#content">Skip navigation</a>
+
+        <!-- Docs master nav -->
+        <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="index.html" class="navbar-brand">SOFTPBX Data</a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                <a href="/view/monitor.html">系统配置</a>
+                </li>
+                <li>
+                <a href="/view/systemstatus.html">系统状态</a>
+                </li>
+                <li >
+                <a href="../components">系统历史数据</a>
+                </li>
+                <li>
+                <a href="../components">系统统计数据</a>
+                </li>
+            </ul>
+            </nav>
+        </div>
+        </header>
+
+
+        <!-- Docs page layout -->
+        <div class="bs-header" id="content">
+            <div class="container">
+                <h1>SOFTPBX CONFIG </h1>
+                <p>SOFTPBX 系统配置</p>
+            </div>
+        </div>
+
+        <!-- Callout for the old docs link -->
+
+        <div class="container bs-docs-container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
+						<!--
+                    <div class="bs-sidebar hidden-print" role="complementary">
+						-->
+                        <ul class="nav bs-sidenav">
+                            
+                            <li>
+                            	<a href="#topology">拓扑列表</a>
+                            </li>
+
+			    <li>
+			    	<a href="#phonelist">分机列表</a>
+                            </li>
+
+                            <li>
+                            <a href="#vdn">ACD VDN</a>
+                            </li>
+
+                            <li>
+                            <a href="#queue">ACD QUEUE</a>
+                            </li>
+
+			    <li>
+                            <a href="#opgroup">ACD OpGroup</a>
+                            </li>
+
+			    <li>
+                            <a href="#download">ACD PhoneList</a>
+                            </li>
+
+			    <li>
+                            <a href="#callout_line">CALLOUT LINE</a>
+                            </li>
+
+			    <li>
+                            <a href="#callout_queue">CALLOUT QUEUE</a>
+                            </li>
+
+			    <li>
+                            <a href="#callout_operator">CALLOUT OPERATOR</a>
+                            </li>
+
+			    <li>
+                            <a href="#callout_phone">CALLOUT PHONE</a>
+                            </li>
+			    
+                        </ul>
+                    </div>
+                </div>
+                <!-- begin -->
+
+				
+                <div class="col-md-9" role="main">
+
+                    <div class="page-header">
+                        <h1 id="topology">系统拓扑</h1>
+                    </div>
+	            <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/topology">
+	       		<thead>
+	       			<tr>
+	       				<th data-field="group_id">group_id</th>
+	       				<th data-field="dst_uri">dst_uri</th>
+	       				<th data-field="resources">resources</th>
+	       				<th data-field="description">description</th>
+	       				<th data-field="status">status</th>
+	       			</tr>
+	       		</thead>
+	  	    </table>
+
+		    </br>
+		    
+                    <script type="text/javascript">                                                                                                                   
+			$(document).ready(function(){  
+
+				var graph = new Q.Graph("canvas");
+
+				
+				function data_trans(input) {
+					var json = JSON.parse(input);
+					var node  = [{"name": "opensips", "x": 0, "y": 0, "id": 0}];
+					var edges = [];
+
+					var node_length = 0;
+					var sm_length   = 0;
+					
+					for (var i=0;i<json.length;i++) {
+						
+						if ((json[i]['group_id'] >= 10000) & (json[i]['group_id'] < 20000)) {
+							sm_length++;
+						} else {
+							node_length++;
+						}
+					}
+
+					for (var i=0,j=0;i<json.length;i++) {
+						var n = {};
+						n['name'] = json[i]['description'];
+						if ((json[i]['group_id'] >= 10000) & (json[i]['group_id'] < 20000)) {
+							n['x'] = ((sm_length / 2) * -100) + (200 * j);
+							n['y'] = -100;
+							j++;
+						} else {
+							n['x'] = ((node_length / 2) * -50) + (50 * i);
+							n['y'] = 100;
+						}
+						n['id'] = i + 1;
+							
+						node.push(n);
+					}
+					for (var i=0;i<json.length;i++) {
+						var n = {};
+						n['from'] = 0;
+						n['to'] = i + 1;
+						edges.push(n);
+					}
+					
+					return {"nodes":node,"edges":edges};
+				}
+
+				function onDataCollected(txt){
+					var json  = JSON.parse(txt);
+					
+					translateToQuneeElements(json, graph);
+				}
+
+				function translateToQuneeElements(json, graph){
+				var map = {};
+				if(json.nodes){
+				Q.forEach(json.nodes, function(data){
+					var node = graph.createNode(data.name, data.x || 0, data.y || 0);
+					node.set("data", data);
+					map[data.id] = node;
+					});
+				}
+				if(json.edges){
+				Q.forEach(json.edges, function(data){
+					var from = map[data.from];
+					var to = map[data.to];
+					if(!from || !to){
+					return;
+					}
+					var edge = graph.createEdge(data.name, from, to);
+					edge.set("data", data);
+					}, graph);
+				}
+				}
+				/*
+				graph.ondblclick = function(evt){
+					var node = evt.data;
+					if(node){
+						var newName = prompt("New Name:");
+						if(newName){
+							node.name = newName;
+						}
+					}
+				}
+				*/
+
+				
+				$.get("/softpbx_config/topology", function(topology_data){
+					
+					topology_json = JSON.stringify(topology_data);
+					var data = data_trans(topology_json);
+					onDataCollected(JSON.stringify(data));
+				});
+				var data = data_trans(topology);
+				onDataCollected(JSON.stringify(data));
+			});
+		    </script>
+
+		    <div id="canvas" style="width: 800px; height: 300px; margin: auto; border: solid 1px #2898E0;"></div>
+
+		    <div class="page-header">
+                        <h1 id="phonelist">分机列表</h1>
+                    </div>
+			
+		    <table data-toggle="table" data-search="true"  data-pagination="true" class="display table table-bordered" data-url="/softpbx_config/phonelist">
+				<thead>
+					<tr>
+						<th data-field="username">username</th>
+						<th data-field="domain">domain</th>
+						<th data-field="password">password</th>
+					</tr>
+				</thead>
+	   	    </table>
+
+
+
+
+		    <div class="page-header">
+                        <h1 id="vdn">vdn</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/vdn">
+				<thead>
+					<tr>
+						<th data-field="name">name</th>
+						<th data-field="queue">queue</th>
+					</tr>
+				</thead>
+		    </table>
+
+
+		    <div class="page-header">
+                        <h1 id="queue">queue</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/queue">
+				<thead>
+					<tr>
+						<th data-field="queue">queue</th>
+					</tr>
+				</thead>
+		    </table>
+
+		    <div class="page-header">
+                        <h1 id="opgroup">opgroup</h1>
+                    </div>
+					
+		    <table data-toggle="table" data-search="true"   data-pagination="true"  class="display table table-bordered" data-url="/softpbx_config/opgroup">
+				<thead>
+					<tr>
+						<th data-field="operator">operator</th>
+						<th data-field="queue">queue</th>
+						<th data-field="level">level</th>
+						<th data-field="position">position</th>
+					</tr>
+				</thead>
+		    </table>
+
+
+
+                    <div class="page-header">
+                        <h1 id="download">ACD分机列表</h1>
+                    </div>
+
+		    <table data-toggle="table"  data-search="true"   data-pagination="true"  class="display table table-bordered" data-url="/softpbx_config/agent">
+				<thead>
+					<tr>
+						<th data-field="name">name</th>
+						<th data-field="type">type</th>
+						<th data-field="contact">contact</th>
+						<th data-field="status">status</th>
+						<th data-field="max_no_answer">max_no_answer</th>
+					</tr>
+				</thead>
+	            </table>
+
+		    <div class="page-header">
+                        <h1 id="callout_line">CALLOUT LINE</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/callout_line">
+				<thead>
+					<tr>
+						<th data-field="line_name">line_name</th>
+						<th data-field="caller_number">caller_number</th>
+						<th data-field="caller_number_bak">caller_number_bak</th>
+						<th data-field="route_code">route_code</th>
+					</tr>
+				</thead>
+		    </table>
+
+						
+		    <div class="page-header">
+                        <h1 id="callout_queue">CALLOUT QUEUE</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/callout_queue">
+				<thead>
+					<tr>
+						<th data-field="name">name</th>
+						<th data-field="authority_name">authority_name</th>
+						<th data-field="line_name">line_name</th>
+						<th data-field="line_point">line_point</th>
+						<th data-field="line_pri">line_pri</th>
+					</tr>
+				</thead>
+		    </table>
+
+		    <div class="page-header">
+                        <h1 id="callout_operator">CALLOUT OPERATOR</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/callout_operator">
+				<thead>
+					<tr>
+						<th data-field="name">name</th>
+						<th data-field="authority_name">authority_name</th>
+						<th data-field="line_name">line_name</th>
+						<th data-field="line_point">line_point</th>
+						<th data-field="line_pri">line_pri</th>
+					</tr>
+				</thead>
+		    </table>
+
+
+		    <div class="page-header">
+                        <h1 id="callout_phone">CALLOUT PHONE</h1>
+                    </div>
+		    <table data-toggle="table" class="display table table-bordered" data-url="/softpbx_config/callout_phone">
+				<thead>
+					<tr>
+						<th data-field="name">name</th>
+						<th data-field="authority_name">authority_name</th>
+						<th data-field="line_name">line_name</th>
+						<th data-field="line_point">line_point</th>
+						<th data-field="line_pri">line_pri</th>
+					</tr>
+				</thead>
+		    </table>
+
+
+              </div>                
+          </div>                
+                    
+      <footer class="bs-footer" role="contentinfo">
+        <div class="container">
+        <p>
+        &copy; Copyright 2016 All Rights Reserved. This website was built with 
+        <a href="#">Protocol GROUP</a> 
+        <a href="#">RSS</a> 
+        <a href="#">Meng hao</a>
+        </p>
+        </div>
+      </footer>
+
+    </body>
+</html>
