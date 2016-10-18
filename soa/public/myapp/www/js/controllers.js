@@ -129,7 +129,7 @@ angular.module('starter.controllers', [])
 			$rootScope.phone_id = $scope.registerData.phone_id;
 			$rootScope.password = $scope.registerData.password;
 			$rootScope.username = $scope.registerData.username;
-			$rootScope.picture  = $scope.registerData.picture;
+			$rootScope.picture  = "img/" + picture_id + ".jpg";
 			$rootScope.Islogin  = 1;
 
       		$scope.closeLogin();
@@ -215,12 +215,13 @@ angular.module('starter.controllers', [])
   };
 
   $scope.create_bill_on = function() {
-    console.log('Doing login', $scope.loginData);
 
+	/*
     $timeout(function() {
       $scope.closeBill();
   	  $scope.bill_init();
     }, 2000);
+	*/
 
 	console.log(Date.parse($scope.bill.start_time));
 	console.log(Date.parse(Date()));
@@ -255,6 +256,9 @@ angular.module('starter.controllers', [])
 
 	$http.get(url).success(function(data) {
 		console.log(data);
+
+		$scope.closeBill();
+  	  	$scope.bill_init();
 	});
   };
 
@@ -363,9 +367,13 @@ angular.module('starter.controllers', [])
     
   ];
 
+  $scope.bill_join = [];
+
 
   $scope.bill = {};
   $scope.bill.group_id = 1;
+
+
 
 
   $scope.bill_init = function() {
@@ -376,6 +384,20 @@ angular.module('starter.controllers', [])
 	  $http.get(url).success(function(data) {
 		  console.log(data);
 		  $scope.playlists = data;
+	  })
+      .finally(function() {
+		  // 停止广播ion-refresher
+		  $scope.$broadcast('scroll.refreshComplete');
+	  });
+
+
+
+	  var url = encodeURI("/core/bill/get_my_join?group_id=" + $scope.bill.group_id) + "&phone_id=" + $rootScope.phone_id;
+	  console.log(url)
+
+	  $http.get(url).success(function(data) {
+		  console.log(data);
+		  $scope.bill_join = data;
 	  })
       .finally(function() {
 		  // 停止广播ion-refresher

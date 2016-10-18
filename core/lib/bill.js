@@ -15,7 +15,7 @@ var bill = {
 
 	get : function(data, callback) {
 
-		var sql = "select *, date_format(start_time,'%Y-%m-%d %H:%i:%s') as start_time from bill where group_id = ? and to_days(start_time) >= to_days(now()) order by bill_id desc";
+		var sql = "select *, date_format(start_time,'%Y-%m-%d %H:%i:%s') as start_time from bill where group_id = ? and to_days(start_time) >= to_days(now()) order by start_time";
 
 		var values = [data.group_id];
 
@@ -45,6 +45,22 @@ var bill = {
 		//var values = [data.group_id, data.phone_id];
 
 		var sql = "select *, date_format(start_time,'%Y-%m-%d %H:%i:%s') as start_time from bill where phone_id = ? and to_days(start_time) >= to_days(now())  order by bill_id desc";
+
+		var values = [data.phone_id];
+
+		softpbx_db.mysql_pool.query(sql, values, function(err, results) {
+			console.log(results);
+			callback(err, results);
+		});
+	},
+
+
+	get_my_join : function(data, callback) {
+
+		//var sql = "select *, date_format(start_time,'%Y-%m-%d %H:%i:%s') as start_time from bill where group_id = ? and  phone_id = ? and to_days(start_time) >= to_days(now())  order by bill_id desc";
+		//var values = [data.group_id, data.phone_id];
+
+		var sql = "select *,  date_format(start_time,'%Y-%m-%d %H:%i:%s') as start_time from bill where bill_id in (select bill_id from bill_join where phone_id = ? and to_days(start_time) >= to_days(now()))  order by bill_id desc";
 
 		var values = [data.phone_id];
 

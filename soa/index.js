@@ -68,7 +68,7 @@ app.get('/core/*', function (req, res, next) {
         }
 });
 
-
+/*
 app.get('/', function (req, res) {
 	res.redirect('/view/pc.html');
 });
@@ -76,3 +76,4 @@ app.get('/', function (req, res) {
 app.get('/mobile', function (req, res) {
 	res.redirect('/myapp/www/');
 });
+*/

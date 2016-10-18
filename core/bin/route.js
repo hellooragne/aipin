@@ -66,6 +66,15 @@ router.get('/core/bill/get_my', function(req, res) {
 	
 });
 
+router.get('/core/bill/get_my_join', function(req, res) {
+
+    bill.get_my_join(req.query, function(req, results) {
+        log.info(results);
+		res.status(200).send(results);
+    });
+	
+});
+
 
 
 router.get('/core/bill_join/add', function(req, res) {
