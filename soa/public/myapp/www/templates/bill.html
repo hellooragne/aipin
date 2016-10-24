@@ -6,7 +6,7 @@
   		on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list>
-      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists" href="#/app/playlists/{{t.bill_id}}">
+      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists track by $index" href="#/app/playlists/{{t.bill_id}}">
 		
 	  <img src="{{t.picture}}" wight="80px" height="90px">
 

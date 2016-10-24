@@ -25,7 +25,7 @@
 
 			   <div class="item">
 
-					   <a class="item item-avatar" href="" ng-repeat="t in bill_join_list">
+					   <a class="item item-avatar" href="" ng-repeat="t in bill_join_list  track by $index">
 						   <img src="{{t.picture}}">
 						   <h2>{{t.username}}</h2>
 						   <p>{{t.create_time}}</p>
