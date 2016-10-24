@@ -4240,3 +4240,59 @@ undefined
 undefined
 undefined
 undefined
+Option log level is not valid. Please refer to the README.
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: listen EADDRINUSE
+    at exports._errnoException (util.js:746:11)
+    at Server._listen2 (net.js:1158:14)
+    at listen (net.js:1184:10)
+    at net.js:1282:9
+    at dns.js:85:18
+    at process._tickCallback (node.js:355:11)
+    at Function.Module.runMain (module.js:503:11)
+    at startup (node.js:129:16)
+    at node.js:814:3
+Option log level is not valid. Please refer to the README.
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: listen EADDRINUSE
+    at exports._errnoException (util.js:746:11)
+    at Server._listen2 (net.js:1158:14)
+    at listen (net.js:1184:10)
+    at net.js:1282:9
+    at dns.js:85:18
+    at process._tickCallback (node.js:355:11)
+    at Function.Module.runMain (module.js:503:11)
+    at startup (node.js:129:16)
+    at node.js:814:3
+Option log level is not valid. Please refer to the README.
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: listen EADDRINUSE
+    at exports._errnoException (util.js:746:11)
+    at Server._listen2 (net.js:1158:14)
+    at listen (net.js:1184:10)
+    at net.js:1282:9
+    at dns.js:85:18
+    at process._tickCallback (node.js:355:11)
+    at Function.Module.runMain (module.js:503:11)
+    at startup (node.js:129:16)
+    at node.js:814:3
+Option log level is not valid. Please refer to the README.
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: listen EADDRINUSE
+    at exports._errnoException (util.js:746:11)
+    at Server._listen2 (net.js:1158:14)
+    at listen (net.js:1184:10)
+    at net.js:1282:9
+    at dns.js:85:18
+    at process._tickCallback (node.js:355:11)
+    at Function.Module.runMain (module.js:503:11)
+    at startup (node.js:129:16)
+    at node.js:814:3
